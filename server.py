@@ -1,5 +1,4 @@
 import asyncio
-import threading
 from flask import Flask
 from bot.main import main as run_telegram_bot
 
@@ -7,19 +6,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "✅ Telegram bot server is running fine!"
+    return '✅ Telegram Bot is running on Render!'
 
-def start_bot():
-    """Start the Telegram bot in its own asyncio loop."""
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(run_telegram_bot())
-    loop.close()
-
-if __name__ == "__main__":
-    # Run Telegram bot in a background thread
-    bot_thread = threading.Thread(target=start_bot, daemon=True)
-    bot_thread.start()
-
-    # Run Flask web app (for Render uptime pings)
-    app.run(host="0.0.0.0", port=10000)
+if __name__ == '__main__':
+    # Run Telegram bot inside the same event loop
+    loop = asyncio.get_event_loop()
+    loop.create_task(run_telegram_bot())
+    app.run(host='0.0.0.0', port=10000)
