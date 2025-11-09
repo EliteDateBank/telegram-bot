@@ -6,7 +6,8 @@ from telegram.ext import (
     filters, ContextTypes,
 )
 from sheet import append_submission, make_row
-from validation import valid_phone, valid_email
+from bot.validation import valid_phone, valid_email
+
 
 
 # Load environment variables
